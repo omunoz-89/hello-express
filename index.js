@@ -1,6 +1,7 @@
 //Imports
 const express = require('express');
 const app = express(); //instance of the app
+const axios = require('axios');
 
 //Home route
 app.get('/', (req, res) => {
@@ -15,11 +16,22 @@ app.get('/sei', (req, res) => {
     res.send('SEI 412');
 });
 
-// app.listen(8000, () => {
-//     console.log('Server is listening on PORT 8000');
-// });
+app.get('/rockets', (req, res) => {
+    //access an API and return some data
+    axios.get('https://api.spacexdata.com/v3/rockets')
+    .then((response) => {
+        //within this block of code
+        //----start----
+        console.log(response.data);
+        res.json(response.data);
+        //----finish----
+    })
+    .catch(error => {
+        console.log(error);
+    })
+});
 
 const PORT = process.env.PORT || 8000;
 app.listen(PORT, () => {
     console.log(`Server is listening on port ${PORT}🔋`);
-})
+});
